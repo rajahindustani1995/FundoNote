@@ -14,19 +14,20 @@ namespace FundoNote.Controllers
         {
             this.userBL = userBL;
         }
-        [HttpPost("Register")]
+        [HttpPost]
+        [Route("Register")]
         public ActionResult Registration(UserRegistrationModel userRegistration)
         {
             try
             {
                 var result = userBL.Register(userRegistration);
-                if(result != null)
+                if (result != null)
                 {
-                    return Ok(new {success = true,message = "Registration Successfull",data = result});
+                    return Ok(new { success = true, message = "Registration Successfull", data = result });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Registration is Not Successfull"});
+                    return BadRequest(new { success = false, message = "Registration Not Successfull" });
                 }
             }
             catch (System.Exception)
@@ -35,8 +36,9 @@ namespace FundoNote.Controllers
                 throw;
             }
         }
-        [HttpPost("Login")]
-        public ActionResult Login(UserLoginModel userLogin )
+        [HttpPost]
+        [Route("Login")]
+        public ActionResult Login(UserLoginModel userLogin)
         {
             try
             {
@@ -47,7 +49,29 @@ namespace FundoNote.Controllers
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Login is Not Successfull" });
+                    return BadRequest(new { success = false, message = "Login Not Successfull" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpPost]
+        [Route("ForgotPassword")]
+        public ActionResult ForgotPassword(string Email)
+        {
+            try
+            {
+                var result = userBL.ForgotPassword(Email);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Password Reset Link Send Successfull", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Unable to Send Password Reset Link" });
                 }
             }
             catch (System.Exception)

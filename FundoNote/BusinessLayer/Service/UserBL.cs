@@ -27,6 +27,7 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
         public UserEntity Register(UserRegistrationModel userRegistration)
         {
             try
@@ -39,6 +40,17 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
-       
+        public string ForgotPassword(string Email)
+        {
+            try
+            {
+                return userRL.ForgotPassword(Email);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
