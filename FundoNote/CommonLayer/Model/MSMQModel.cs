@@ -34,13 +34,24 @@ namespace CommonLayer.Model
             MailMessage message = new MailMessage();
             message.From = new MailAddress("rajhindustani959@gmail.com");
             message.To.Add("rajhindustani959@gmail.com");
+
+            message.Subject = "subject";
+            message.IsBodyHtml = true;
+            string htmlBody;
+
+            htmlBody = "Write some HTML Code here";
+
+            message.Body = "<body><p>Dear User,<br><br>" +
+                "Please check the link below for reset password.<br>" +
+                "Please copy the code and paste it in your swagger authentication.</body>" + token;
+
             var SMTP = new SmtpClient("smtp.gmail.com")
             {
                 Port= 587,
                 Credentials = new NetworkCredential("rajhindustani959@gmail.com","ejxbhgibrryybrma"),
                 EnableSsl = true,
             };
-            SMTP.Send("rajhindustani959@gmail.com", "rajhindustani959@gmail.com", Subject, Body);
+            SMTP.Send(message);
             messageQ.BeginReceive();
         }
     }
