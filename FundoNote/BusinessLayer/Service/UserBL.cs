@@ -23,7 +23,6 @@ namespace BusinessLayer.Service
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -36,7 +35,6 @@ namespace BusinessLayer.Service
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -48,7 +46,17 @@ namespace BusinessLayer.Service
             }
             catch (Exception)
             {
-
+                throw;
+            }
+        }
+        public bool ResetPassword(string email, string password, string newPassword)
+        {
+            try
+            {
+                return userRL.ResetPassword(email, password, newPassword);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

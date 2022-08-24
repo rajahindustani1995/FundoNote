@@ -28,8 +28,12 @@ namespace CommonLayer.Model
         {
             var msg = messageQ.EndReceive(e.AsyncResult);
             string token = msg.Body.ToString();
-            string Subject = "FundoNotes Token Link";
+            string Subject = "FundoNotes Reset Link";
             string Body = token;
+
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress("rajhindustani959@gmail.com");
+            message.To.Add("rajhindustani959@gmail.com");
             var SMTP = new SmtpClient("smtp.gmail.com")
             {
                 Port= 587,

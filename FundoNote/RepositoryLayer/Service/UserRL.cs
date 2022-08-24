@@ -113,5 +113,52 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        public string ResetPassword(string Email)
+        {
+            try
+            {
+                var VerifyEmail = fundoContext.UserTable.FirstOrDefault(x => x.Email == Email);
+                if (VerifyEmail != null)
+                {
+                    string token = GenerateSecurityToken(VerifyEmail.Email, VerifyEmail.UserId);
+                    return "Password Reset mail sent";
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public bool ResetPassword(string email, string password, string newPassword)
+        {
+            try
+            {
+
+                if (password.Equals(newPassword))
+                {
+                    var user = this.fundoContext.UserTable.Where(E => E.Email == email).FirstOrDefault();
+                    user.Password = newPassword;
+                    fundoContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

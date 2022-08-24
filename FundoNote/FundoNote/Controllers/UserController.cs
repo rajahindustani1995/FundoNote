@@ -1,7 +1,10 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Security.Claims;
 
 namespace FundoNote.Controllers
 {
@@ -77,6 +80,25 @@ namespace FundoNote.Controllers
             catch (System.Exception)
             {
 
+                throw;
+            }
+        }
+        [Authorize]
+        [HttpPut]
+        [Route("ResetPassword")]
+
+        public ActionResult ResetPassword(string password, string newPassword)
+        {
+            try
+            {
+                var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+                if (userBL.ResetPassword(email, password, newPassword))
+                    return this.Ok(new { Success = true, message = "Password updated sucessfully" });
+                else
+                    return this.BadRequest(new { Success = false, message = "Unable to reset password. Please try again!" });
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
