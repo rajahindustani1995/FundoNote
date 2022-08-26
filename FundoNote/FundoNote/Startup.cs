@@ -36,8 +36,12 @@ namespace FundoNote
         {
             services.AddDbContext<FundoContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundoDB"]));
             services.AddControllers();
+            //For User
             services.AddTransient<IUserRL, UserRL>();
             services.AddTransient<IUserBL, UserBL>();
+            //For Notes
+            services.AddTransient<INotesRL, NotesRL>();
+            services.AddTransient<INotesBL, NotesBL>();
             services.AddSwaggerGen();
             services.AddSwaggerGen(opt =>
             {

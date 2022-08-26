@@ -41,6 +41,7 @@ namespace CommonLayer.Model
 
             htmlBody = "Write some HTML Code here";
 
+            //HTML tags to show some message in mail
             message.Body = "<body><p>Dear User,<br><br>" +
                 "Please check the link below for reset password.<br>" +
                 "Please copy the code and paste it in your swagger authentication.</body>" + token;
