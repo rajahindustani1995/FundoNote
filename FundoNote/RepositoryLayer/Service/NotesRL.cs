@@ -1,20 +1,30 @@
-﻿using CommonLayer.Model;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.Services.Account;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Account = CloudinaryDotNet.Account;
 
 namespace RepositoryLayer.Service
 {
     public class NotesRL : INotesRL
     {
         private readonly FundoContext fundoContext;
-        public NotesRL(FundoContext fundoContext)
+        private readonly IConfiguration cloudinaryEntity;
+        public NotesRL(FundoContext fundoContext, IConfiguration cloudinaryEntity)
         {
             this.fundoContext = fundoContext;
+            this.cloudinaryEntity = cloudinaryEntity;
+
         }
 
         public NotesEntity Create(NotesModel model, long userId)
@@ -134,7 +144,6 @@ namespace RepositoryLayer.Service
             if (data.Pin == true)
             {
                 data.Pin = false;
-
                 fundoContext.SaveChanges();
                 return data;
             }
@@ -156,6 +165,55 @@ namespace RepositoryLayer.Service
             else
             {
                 return null;
+            }
+        }
+
+        public NotesEntity Archive(long NotesID)
+        {
+            NotesEntity data = fundoContext.NotesTable.FirstOrDefault(x => x.NotesID == NotesID);
+            if (data.Trash == true)
+            {
+                data.Trash = false;
+                fundoContext.SaveChanges();
+                return data;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string Image(IFormFile image, long noteID, long userID)
+        {
+            try
+            {
+                var result = fundoContext.NotesTable.Where(x => x.UserID == userID && x.NotesID == noteID).FirstOrDefault();
+                if (result != null)
+                {
+                    Account cloudaccount = new Account(
+                        cloudinaryEntity["CloudinarySettings:cloud_name"],
+                        cloudinaryEntity["CloudinarySettings:api_key"],
+                        cloudinaryEntity["CloudinarySettings:api_secret"]
+                        );
+                    Cloudinary cloudinary = new Cloudinary(cloudaccount);
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(image.FileName, image.OpenReadStream()),
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+                    string imagePath = uploadResult.Url.ToString();
+                    result.Image = imagePath;
+                    fundoContext.SaveChanges();
+                    return "Image uploaded successfully";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

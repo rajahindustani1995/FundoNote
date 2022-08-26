@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -120,6 +121,32 @@ namespace FundoNote.Controllers
         }
         [Authorize]
         [HttpPut]
+        [Route("Archive")]
+        public ActionResult Archive(long NotesID)
+        {
+            try
+            {
+                long ID = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "UserID").Value);
+                var result = notesBL.Trash(NotesID);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Note is Achived Successful" });
+                }
+                else
+                {
+                    return this.NotFound(new { success = false, message = "Note Unable to Achive" });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        [Authorize]
+        [HttpPut]
         [Route("Pin")]
         public ActionResult Pin(long NotesID)
         {
@@ -167,6 +194,29 @@ namespace FundoNote.Controllers
                 throw;
             }
 
+        }
+        [Authorize]
+        [HttpPut]
+        [Route("Image")]
+        public IActionResult Image(IFormFile image, long NoteID)
+        {
+            try
+            {
+                long userID = Convert.ToInt32(User.Claims.FirstOrDefault(user => user.Type == "UserID").Value);
+                var result = notesBL.Image(image, NoteID, userID);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Cannot upload image." });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
     }
 }
