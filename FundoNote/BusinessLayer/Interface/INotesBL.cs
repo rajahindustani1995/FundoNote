@@ -12,5 +12,8 @@ namespace BusinessLayer.Interface
         public IEnumerable<NotesEntity> Retrieve(long NotesID);
         public NotesEntity UpdateNote(NotesModel model, long NotesID);
         public string Delete(long NotesID);
+        public NotesEntity Pin(long NotesID);
+        public NotesEntity Trash(long NotesID);
+
     }
 }

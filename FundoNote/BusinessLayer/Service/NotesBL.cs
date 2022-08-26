@@ -62,6 +62,29 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public NotesEntity Pin(long NotesID)
+        {
+            try
+            {
+                return notesRL.Pin(NotesID);
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
+        public NotesEntity Trash(long NotesID)
+        {
+            try
+            {
+                return notesRL.Trash(NotesID);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

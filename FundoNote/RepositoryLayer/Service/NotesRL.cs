@@ -128,6 +128,36 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        public NotesEntity Pin(long NotesID)
+        {
+            NotesEntity data = fundoContext.NotesTable.FirstOrDefault(x => x.NotesID == NotesID);
+            if (data.Pin == true)
+            {
+                data.Pin = false;
+
+                fundoContext.SaveChanges();
+                return data;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public NotesEntity Trash(long NotesID)
+        {
+            NotesEntity data = fundoContext.NotesTable.FirstOrDefault(x => x.NotesID == NotesID);
+            if (data.Trash == true)
+            {
+                data.Trash = false;
+                fundoContext.SaveChanges();
+                return data;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 
 }

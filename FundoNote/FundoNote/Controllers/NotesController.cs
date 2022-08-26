@@ -42,7 +42,7 @@ namespace FundoNote.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpGet]
         [Route("Retrieve")]
         public ActionResult Retrieve(long NotesID)
         {
@@ -56,7 +56,7 @@ namespace FundoNote.Controllers
                 }
                 else
                 {
-                    return this.NotFound(new { success = false, message = "data not Reterieve" });
+                    return this.NotFound(new { success = false, message = "Unable to Retrieve data" });
                 }
             }
             catch (Exception)
@@ -68,7 +68,7 @@ namespace FundoNote.Controllers
 
 
         [Authorize]
-        [HttpPost]
+        [HttpPut]
         [Route("Update")]
         public ActionResult UpdateNote(NotesModel model, long NotesID)
         {
@@ -94,7 +94,7 @@ namespace FundoNote.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpDelete]
         [Route("Delete")]
         public ActionResult Delete(long NotesID)
         {
@@ -117,6 +117,56 @@ namespace FundoNote.Controllers
                 throw;
             }
             
+        }
+        [Authorize]
+        [HttpPut]
+        [Route("Pin")]
+        public ActionResult Pin(long NotesID)
+        {
+            try
+            {
+                long ID = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "UserID").Value);
+                var result = notesBL.Pin(NotesID);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Note is Pinned Successful" });
+                }
+                else
+                {
+                    return this.NotFound(new { success = false, message = "Note Unable to Pin" });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        [Authorize]
+        [HttpPut]
+        [Route("Trash")]
+        public ActionResult Trash(long NotesID)
+        {
+            try
+            {
+                long ID = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "UserID").Value);
+                var result = notesBL.Trash(NotesID);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Note is Trashed Successful" });
+                }
+                else
+                {
+                    return this.NotFound(new { success = false, message = "Note Unable to Trash" });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }
