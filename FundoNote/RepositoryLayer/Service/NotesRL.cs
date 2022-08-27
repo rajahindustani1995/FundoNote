@@ -143,13 +143,17 @@ namespace RepositoryLayer.Service
             NotesEntity data = fundoContext.NotesTable.FirstOrDefault(x => x.NotesID == NotesID);
             if (data.Pin == true)
             {
-                data.Pin = false;
+
+                fundoContext.NotesTable.Update(data);
                 fundoContext.SaveChanges();
                 return data;
             }
             else
             {
-                return null;
+                data.Pin = true;
+                fundoContext.NotesTable.Update(data);
+                fundoContext.SaveChanges();
+                return data;
             }
         }
 
@@ -158,13 +162,17 @@ namespace RepositoryLayer.Service
             NotesEntity data = fundoContext.NotesTable.FirstOrDefault(x => x.NotesID == NotesID);
             if (data.Trash == true)
             {
-                data.Trash = false;
+
+                fundoContext.NotesTable.Update(data);
                 fundoContext.SaveChanges();
                 return data;
             }
             else
             {
-                return null;
+                data.Trash = false;
+                fundoContext.NotesTable.Update(data);
+                fundoContext.SaveChanges();
+                return data;
             }
         }
 
@@ -174,12 +182,16 @@ namespace RepositoryLayer.Service
             if (data.Trash == true)
             {
                 data.Trash = false;
+                fundoContext.NotesTable.Update(data);
                 fundoContext.SaveChanges();
                 return data;
             }
             else
             {
-                return null;
+                data.Trash = true;
+                fundoContext.NotesTable.Update(data);
+                fundoContext.SaveChanges();
+                return data;
             }
         }
 
@@ -203,8 +215,9 @@ namespace RepositoryLayer.Service
                     var uploadResult = cloudinary.Upload(uploadParams);
                     string imagePath = uploadResult.Url.ToString();
                     result.Image = imagePath;
+                    fundoContext.NotesTable.Update(result);
                     fundoContext.SaveChanges();
-                    return "Image uploaded successfully";
+                    return "Image has been uploaded successfully";
                 }
                 else
                 {
@@ -216,6 +229,28 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        public NotesEntity ChoiceColor(long NotesID, string Color)
+        {
+            try
+            {
+                var data = fundoContext.NotesTable.SingleOrDefault(x => x.NotesID == NotesID);
+                //NotesModel model = new NotesModel();
+                if (data != null)
+                {
+                    data.Color = Color;
+                    fundoContext.NotesTable.Update(data);
+                    fundoContext.SaveChanges();
+                    return data;
+                }
+                else
+                {
+                    return null;;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
-
 }

@@ -16,6 +16,7 @@ namespace RepositoryLayer.Interface
         public NotesEntity Archive(long NotesID);
         public NotesEntity Pin(long NotesID);
         public NotesEntity Trash(long NotesID);
+        public NotesEntity ChoiceColor(long NotesID, string Color);
         public string Image(IFormFile image, long noteID, long userID);
     }
 }

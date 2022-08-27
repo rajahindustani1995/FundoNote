@@ -83,7 +83,7 @@ namespace FundoNote.Controllers
                 }
                 else
                 {
-                    return this.NotFound(new { success = false, message = "Data NotUpdated" });
+                    return this.NotFound(new { success = false, message = "Unable to Update Data" });
                 }
             }
             catch (Exception)
@@ -127,10 +127,10 @@ namespace FundoNote.Controllers
             try
             {
                 long ID = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "UserID").Value);
-                var result = notesBL.Trash(NotesID);
+                var result = notesBL.Archive(NotesID);
                 if (result != null)
                 {
-                    return this.Ok(new { success = true, message = "Note is Achived Successful" });
+                    return this.Ok(new { success = true, message = "Note is Achived Successful", data = result });
                 }
                 else
                 {
@@ -156,7 +156,7 @@ namespace FundoNote.Controllers
                 var result = notesBL.Pin(NotesID);
                 if (result != null)
                 {
-                    return this.Ok(new { success = true, message = "Note is Pinned Successful" });
+                    return this.Ok(new { success = true, message = "Note is Pinned Successful", data = result });
                 }
                 else
                 {
@@ -181,7 +181,7 @@ namespace FundoNote.Controllers
                 var result = notesBL.Trash(NotesID);
                 if (result != null)
                 {
-                    return this.Ok(new { success = true, message = "Note is Trashed Successful" });
+                    return this.Ok(new { success = true, message = "Note is Trashed Successful", data = result });
                 }
                 else
                 {
@@ -206,17 +206,42 @@ namespace FundoNote.Controllers
                 var result = notesBL.Image(image, NoteID, userID);
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = result });
+                    return Ok(new { success = true, message = result, data = result });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Cannot upload image." });
+                    return BadRequest(new { success = false, message = "Unable to upload image." });
                 }
             }
             catch (System.Exception)
             {
                 throw;
             }
+        }
+        [Authorize]
+        [HttpPut]
+        [Route("Color")]
+        public ActionResult ChoiceColor(long NotesID, string Color)
+        {
+            try
+            {
+                long ID = Convert.ToInt32(User.Claims.All(x => x.Type == "UserID"));
+                var result = notesBL.ChoiceColor(NotesID, Color);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Color Changed Successfully", data = result });
+                }
+                else
+                {
+                    return this.NotFound(new { success = false, message = "Unable to Change color" });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }
