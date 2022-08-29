@@ -42,6 +42,10 @@ namespace FundoNote
             //For Notes
             services.AddTransient<INotesRL, NotesRL>();
             services.AddTransient<INotesBL, NotesBL>();
+            //For Collaboration
+            services.AddTransient<ICollaborationRL, CollaborationRL>();
+            services.AddTransient<ICollaborationBL, CollaborationBL>();
+
             services.AddSwaggerGen();
             services.AddSwaggerGen(opt =>
             {
