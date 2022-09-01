@@ -29,5 +29,31 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public IEnumerable<CollaborationEntity> Retrieve(long notesID)
+        {
+            try
+            {
+                return collabRL.Retrieve(notesID);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public string Delete(long CollaboratorID)
+        {
+            try
+            {
+                return collabRL.Delete(CollaboratorID);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

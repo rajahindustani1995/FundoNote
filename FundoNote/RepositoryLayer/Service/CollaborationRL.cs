@@ -45,5 +45,49 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+
+        public IEnumerable<CollaborationEntity> Retrieve(long notesID)
+        {
+            try
+            {
+                var result = fundoContext.CollaboratorTable.SingleOrDefault(x => x.NotesID == notesID);
+                List<CollaborationEntity> list = fundoContext.CollaboratorTable.ToList();
+                if (result != null)
+                {
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public string Delete(long CollaboratorID)
+        {
+            try
+            {
+                var result = fundoContext.CollaboratorTable.FirstOrDefault(e => e.CollaboratorID == CollaboratorID);
+                if (result != null)
+                {
+                    fundoContext.CollaboratorTable.Remove(result);
+                    fundoContext.SaveChanges();
+                    return "Notes Collaborator Deleted Successfull";
+                }
+                else
+                {
+                    return "Collaborator Unable to Delete";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
