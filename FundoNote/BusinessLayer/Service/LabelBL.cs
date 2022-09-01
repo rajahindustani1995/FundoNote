@@ -27,6 +27,17 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public IEnumerable<LabelEntity> Retrieve(long NotesID)
+        {
+            try
+            {
+                return labelRL.Retrieve(NotesID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public string Delete(long LabelID)
         {

@@ -10,5 +10,6 @@ namespace RepositoryLayer.Interface
     {
         public LabelEntity Create(LabelModel labelModel, long userID, long notesID);
         public string Delete(long LabelID);
+        public IEnumerable<LabelEntity> Retrieve(long NotesID);
     }
 }

@@ -44,6 +44,28 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+
+        public IEnumerable<LabelEntity> Retrieve(long NotesID)
+        {
+            try
+            {
+                var result = fundoContext.LabelTable.SingleOrDefault(e => e.NotesID == NotesID);
+                List<LabelEntity> list = fundoContext.LabelTable.ToList();
+                if (result != null)
+                {
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public string Delete(long LabelID)
         {
 

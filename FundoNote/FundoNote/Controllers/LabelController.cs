@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interface;
+using BusinessLayer.Service;
 using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,31 @@ namespace FundoNote.Controllers
             else
             {
                 return this.BadRequest(new { success = false, message = "label is not Created" });
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("Retrieve")]
+        public ActionResult Retrieve(long NotesID)
+        {
+            try
+            {
+                long UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserID").Value);
+                var result = labelBL.Retrieve(UserID);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Label is Retrieved Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Unable to Retrieved Label" });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
