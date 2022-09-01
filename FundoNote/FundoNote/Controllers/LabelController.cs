@@ -36,21 +36,21 @@ namespace FundoNote.Controllers
             }
         }
 
-        //[Authorize]
-        //[HttpPost]
-        //[Route("Delete")]
-        //public IActionResult Delete(long LabelID)
-        //{
-        //    long ID = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "UserID").Value);
-        //    var result = labelBL.Delete(LabelID);
-        //    if (result != null)
-        //    {
-        //        return this.Ok(new { success = true, message = "Label Delete Successful" });
-        //    }
-        //    else
-        //    {
-        //        return this.NotFound(new { success = false, message = "Label does not Delete" });
-        //    }
-        //}
+        [Authorize]
+        [HttpDelete]
+        [Route("Delete")]
+        public IActionResult Delete(long LabelID)
+        {
+            long ID = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "UserID").Value);
+            var result = labelBL.Delete(LabelID);
+            if (result != null)
+            {
+                return this.Ok(new { success = true, message = "Label Delete Successful" });
+            }
+            else
+            {
+                return this.NotFound(new { success = false, message = "Label does not Delete" });
+            }
+        }
     }
 }

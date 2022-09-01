@@ -44,20 +44,20 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-        //public string Delete(long LabelID)
-        //{
+        public string Delete(long LabelID)
+        {
 
-        //    var result = fundoContext.LabelTable.FirstOrDefault(e => e.NotesID == LabelID);
-        //    if (result != null)
-        //    {
-        //        fundoContext.LabelTable.Remove(result);
-        //        fundoContext.SaveChanges();
-        //        return "Label Delete Successfull";
-        //    }
-        //    else
-        //    {
-        //        return "Label Does not Delete";
-        //    }
-        //}
+            var result = fundoContext.LabelTable.FirstOrDefault(e => e.NotesID == LabelID);
+            if (result != null)
+            {
+                fundoContext.LabelTable.Remove(result);
+                fundoContext.SaveChanges();
+                return "Label Delete Successfull";
+            }
+            else
+            {
+                return "Label Does not Delete";
+            }
+        }
     }
 }

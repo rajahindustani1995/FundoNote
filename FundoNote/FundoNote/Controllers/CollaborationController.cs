@@ -41,7 +41,7 @@ namespace FundoNote.Controllers
             }
         }
         [Authorize]
-        [HttpPost]
+        [HttpGet]
         [Route("Retrieve")]
         public ActionResult Retrieve(long notesID)
         {
@@ -64,7 +64,7 @@ namespace FundoNote.Controllers
             }
         }
         [Authorize]
-        [HttpPost]
+        [HttpDelete]
         [Route("Delete")]
         public ActionResult Delete(long CollaboratorID)
         {

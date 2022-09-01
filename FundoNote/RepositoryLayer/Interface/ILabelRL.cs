@@ -9,6 +9,6 @@ namespace RepositoryLayer.Interface
     public interface ILabelRL
     {
         public LabelEntity Create(LabelModel labelModel, long userID, long notesID);
-        //public string Delete(long LabelID);
+        public string Delete(long LabelID);
     }
 }

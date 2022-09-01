@@ -28,16 +28,16 @@ namespace BusinessLayer.Service
             }
         }
 
-        //public string Delete(long LabelID)
-        //{
-        //    try
-        //    {
-        //        return labelRL.Delete(LabelID);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
+        public string Delete(long LabelID)
+        {
+            try
+            {
+                return labelRL.Delete(LabelID);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
