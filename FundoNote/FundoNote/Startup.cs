@@ -46,6 +46,9 @@ namespace FundoNote
             services.AddTransient<ICollaborationRL, CollaborationRL>();
             services.AddTransient<ICollaborationBL, CollaborationBL>();
 
+            services.AddTransient<ILabelRL, LabelRL>();
+            services.AddTransient<ILabelBL, LabelBL>();
+
             services.AddSwaggerGen();
             services.AddSwaggerGen(opt =>
             {
