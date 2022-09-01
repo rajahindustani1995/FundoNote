@@ -16,28 +16,40 @@ namespace BusinessLayer.Service
         {
             this.labelRL = labelRL;
         }
-        public LabelEntity Create(LabelModel labelModel, long userID, long notesID)
+        public LabelEntity Create(long userID, long notesID, string labelname)
         {
             try
             {
-                return labelRL.Create(labelModel, userID, notesID);
+                return labelRL.Create(userID, notesID, labelname);
             }
             catch (Exception)
             {
                 throw;
             }
         }
-        public IEnumerable<LabelEntity> Retrieve(long NotesID)
+        public IEnumerable<LabelEntity> Retrieve(long LabelID)
         {
             try
             {
-                return labelRL.Retrieve(NotesID);
+                return labelRL.Retrieve(LabelID);
             }
             catch (Exception)
             {
                 throw;
             }
         }
+        public LabelEntity UpdateLabel(long labelID, string labelname)
+        {
+            try
+            {
+                return labelRL.UpdateLabel(labelID, labelname);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
         public string Delete(long LabelID)
         {

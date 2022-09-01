@@ -2,6 +2,9 @@
 using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using RepositoryLayer.Context;
 using System;
 using System.Linq;
 
@@ -12,9 +15,15 @@ namespace FundoNote.Controllers
     public class CollaborationController : Controller
     {
         private readonly ICollaborationBL collaborationBL;
-        public CollaborationController(ICollaborationBL collaborationBL)
+        private readonly IMemoryCache memoryCache;
+        private readonly FundoContext fundoContext;
+        private readonly IDistributedCache distributedCache;
+        public CollaborationController(ICollaborationBL collaborationBL, IMemoryCache memoryCache, FundoContext fundoContext, IDistributedCache distributedCache)
         {
             this.collaborationBL = collaborationBL;
+            this.memoryCache = memoryCache;
+            this.fundoContext = fundoContext;
+            this.distributedCache = distributedCache;
         }
         [Authorize]
         [HttpPost]
@@ -87,6 +96,7 @@ namespace FundoNote.Controllers
                 throw;
             }
         }
+
 
     }
 }

@@ -8,8 +8,9 @@ namespace RepositoryLayer.Interface
 {
     public interface ILabelRL
     {
-        public LabelEntity Create(LabelModel labelModel, long userID, long notesID);
+        public LabelEntity Create(long userID, long notesID, string labelname);
         public string Delete(long LabelID);
-        public IEnumerable<LabelEntity> Retrieve(long NotesID);
+        public IEnumerable<LabelEntity> Retrieve(long LabelID);
+        public LabelEntity UpdateLabel(long labelID, string labelname);
     }
 }

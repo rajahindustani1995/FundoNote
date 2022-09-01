@@ -17,20 +17,19 @@ namespace RepositoryLayer.Service
         {
             this.fundoContext = fundoContext;
         }
-        public LabelEntity Create(LabelModel labelModel, long userID, long notesID)
+        public LabelEntity Create(long userID, long notesID, string labelname)
         {
             try
             {
-                LabelEntity labelEntity = new LabelEntity();
-
-                labelEntity.LabelName = labelModel.LabelName;
-                labelEntity.NotesID = notesID;
-                labelEntity.UserID = userID;
-
-                fundoContext.LabelTable.Add(labelEntity);
-                int result = fundoContext.SaveChanges();
-                if (result > 0)
+                var noteResult = fundoContext.NotesTable.Where(x => x.NotesID == notesID).FirstOrDefault();
+                if (noteResult != null)
                 {
+                    LabelEntity labelEntity = new LabelEntity();
+                    labelEntity.NotesID = noteResult.NotesID;
+                    labelEntity.UserID = noteResult.UserID;
+                    labelEntity.LabelName = labelname;
+                    fundoContext.Add(labelEntity);
+                    fundoContext.SaveChanges();
                     return labelEntity;
                 }
                 else
@@ -38,6 +37,7 @@ namespace RepositoryLayer.Service
                     return null;
                 }
             }
+
             catch (Exception)
             {
 
@@ -45,11 +45,11 @@ namespace RepositoryLayer.Service
             }
         }
 
-        public IEnumerable<LabelEntity> Retrieve(long NotesID)
+        public IEnumerable<LabelEntity> Retrieve(long LabelID)
         {
             try
             {
-                var result = fundoContext.LabelTable.SingleOrDefault(e => e.NotesID == NotesID);
+                var result = fundoContext.LabelTable.SingleOrDefault(e => e.LabelID == LabelID);
                 List<LabelEntity> list = fundoContext.LabelTable.ToList();
                 if (result != null)
                 {
@@ -65,6 +65,30 @@ namespace RepositoryLayer.Service
 
                 throw;
             }
+        }
+        public LabelEntity UpdateLabel(long labelID, string labelname)
+        {
+            try
+            {
+                var data = fundoContext.LabelTable.SingleOrDefault(x => x.LabelID == labelID);
+                if (data != null)
+                { 
+                    data.LabelName = labelname;
+                    fundoContext.LabelTable.Update(data);
+                    fundoContext.SaveChanges();
+                    return data;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
         public string Delete(long LabelID)
         {
