@@ -76,7 +76,7 @@ namespace RepositoryLayer.Service
                 {
                     fundoContext.CollaboratorTable.Remove(result);
                     fundoContext.SaveChanges();
-                    return "Notes Collaborator Deleted Successfull";
+                    return "Collaborator Deleted Successfull";
                 }
                 else
                 {

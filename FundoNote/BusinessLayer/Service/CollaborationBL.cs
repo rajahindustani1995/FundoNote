@@ -50,7 +50,7 @@ namespace BusinessLayer.Service
 
             }
             catch (Exception)
-            {
+            { 
 
                 throw;
             }
