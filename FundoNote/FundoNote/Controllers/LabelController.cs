@@ -80,7 +80,7 @@ namespace FundoNote.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPut]
         [Route("Update")]
         public ActionResult UpdateLabel(long labelID, string labelname)
         {
