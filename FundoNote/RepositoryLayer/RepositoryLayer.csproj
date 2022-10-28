@@ -5,15 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20220829160844_Third_Migration.cs" />
-    <Compile Remove="Migrations\20220829160844_Third_Migration.Designer.cs" />
-    <Compile Remove="Migrations\20220829165519_Third_Migration.cs" />
-    <Compile Remove="Migrations\20220829165519_Third_Migration.Designer.cs" />
-    <Compile Remove="Migrations\20220829170050_Third_Migration.cs" />
-    <Compile Remove="Migrations\20220829170050_Third_Migration.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CloudinaryDotNet" Version="1.19.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />

@@ -108,6 +108,19 @@ namespace FundoNote
                 options.Configuration = "localhost:6379";
             });
             services.AddMemoryCache();
+
+            // Default Policy
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:44379", "http://localhost:4200")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
+            });
+
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -118,6 +131,8 @@ namespace FundoNote
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors();
 
             app.UseRouting();
             app.UseAuthentication();
@@ -131,6 +146,8 @@ namespace FundoNote
             app.UseSwaggerUI(c => {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Showing API V1");
             });
+
+            
 
         }
 

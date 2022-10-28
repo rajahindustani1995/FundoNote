@@ -16,33 +16,66 @@ namespace BusinessLayer.Service
         {
             this.labelRL = labelRL;
         }
-        public LabelEntity Create(long userID, long notesID, string labelname)
+        public LabelEntity AddLabel(long userID, long notesID, string labelname)
         {
             try
             {
-                return labelRL.Create(userID, notesID, labelname);
+                return labelRL.AddLabel(userID, notesID, labelname);
             }
             catch (Exception)
             {
                 throw;
             }
         }
-        public IEnumerable<LabelEntity> Retrieve(long LabelID)
+        public LabelEntity CreateLabel(LabelModel model, long userId)
         {
             try
             {
-                return labelRL.Retrieve(LabelID);
+                return labelRL.CreateLabel(model, userId);
             }
             catch (Exception)
             {
                 throw;
             }
         }
-        public LabelEntity UpdateLabel(long labelID, string labelname)
+        //public LabelEntity AddLabel(long userID, long notesID, string labelname)
+        //{
+        //    try
+        //    {
+        //        return labelRL.AddLabel(userID, notesID, labelname);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+        //public LabelEntity CreateLabel(LabelModel model, long userId)
+        //{
+        //    try
+        //    {
+        //        return labelRL.CreateLabel(model, userId);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+        public IEnumerable<LabelEntity> GetLabels(long userId)
         {
             try
             {
-                return labelRL.UpdateLabel(labelID, labelname);
+                return labelRL.GetLabels(userId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public LabelEntity UpdateLabel(LabelModel labelModel, long labelID)
+        {
+            try
+            {
+                return labelRL.UpdateLabel(labelModel,labelID);
             }
             catch (Exception)
             {

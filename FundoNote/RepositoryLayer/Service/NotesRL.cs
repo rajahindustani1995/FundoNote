@@ -61,11 +61,11 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
-        public IEnumerable<NotesEntity> Retrieve(long NotesID)
+        public IEnumerable<NotesEntity> Retrieve(long userId)
         {
             try
             {
-                var result = fundoContext.NotesTable.SingleOrDefault(e => e.NotesID == NotesID);
+                var result = fundoContext.NotesTable.Where(e => e.UserID == userId);
                 List<NotesEntity> list = fundoContext.NotesTable.ToList();
                 if (result != null)
                 {
@@ -141,16 +141,16 @@ namespace RepositoryLayer.Service
         public NotesEntity Pin(long NotesID)
         {
             NotesEntity data = fundoContext.NotesTable.FirstOrDefault(x => x.NotesID == NotesID);
-            if (data.Pin == true)
+            if (data.Pin == false)
             {
-
+                data.Pin = true;
                 fundoContext.NotesTable.Update(data);
                 fundoContext.SaveChanges();
                 return data;
             }
             else
             {
-                data.Pin = true;
+                data.Pin = false;
                 fundoContext.NotesTable.Update(data);
                 fundoContext.SaveChanges();
                 return data;
@@ -160,9 +160,9 @@ namespace RepositoryLayer.Service
         public NotesEntity Trash(long NotesID)
         {
             NotesEntity data = fundoContext.NotesTable.FirstOrDefault(x => x.NotesID == NotesID);
-            if (data.Trash == true)
+            if (data.Trash == false)
             {
-
+                data.Trash = true;
                 fundoContext.NotesTable.Update(data);
                 fundoContext.SaveChanges();
                 return data;
@@ -179,16 +179,16 @@ namespace RepositoryLayer.Service
         public NotesEntity Archive(long NotesID)
         {
             NotesEntity data = fundoContext.NotesTable.FirstOrDefault(x => x.NotesID == NotesID);
-            if (data.Trash == true)
+            if (data.Archive == false)
             {
-                data.Trash = false;
+                data.Archive = true;
                 fundoContext.NotesTable.Update(data);
                 fundoContext.SaveChanges();
                 return data;
             }
             else
             {
-                data.Trash = true;
+                data.Archive = false;
                 fundoContext.NotesTable.Update(data);
                 fundoContext.SaveChanges();
                 return data;

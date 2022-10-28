@@ -50,7 +50,22 @@ namespace RepositoryLayer.Service
         {
             try
             {
-                var result = fundoContext.CollaboratorTable.SingleOrDefault(x => x.NotesID == notesID);
+                //var result = this.fundooContext.CollabTable.Where
+                var result = fundoContext.CollaboratorTable.Where(x => x.NotesID == notesID);
+                //List<CollaborationEntity> list = fundoContext.CollaboratorTable.ToList();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public IEnumerable<CollaborationEntity> GetAllCollab(long userID)
+        {
+            try
+            {
+                var result = fundoContext.CollaboratorTable.Where(x => x.UserID == userID);
                 List<CollaborationEntity> list = fundoContext.CollaboratorTable.ToList();
                 if (result != null)
                 {

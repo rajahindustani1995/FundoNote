@@ -54,17 +54,17 @@ namespace RepositoryLayer.Migrations
                     b.Property<string>("LabelName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("NotesId")
+                    b.Property<long?>("NotesID")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserID")
                         .HasColumnType("bigint");
 
                     b.HasKey("LabelID");
 
-                    b.HasIndex("NotesId");
+                    b.HasIndex("NotesID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("LabelTable");
                 });
@@ -159,15 +159,11 @@ namespace RepositoryLayer.Migrations
                 {
                     b.HasOne("RepositoryLayer.Entity.NotesEntity", "Notes")
                         .WithMany()
-                        .HasForeignKey("NotesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("NotesID");
 
                     b.HasOne("RepositoryLayer.Entity.UserEntity", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("RepositoryLayer.Entity.NotesEntity", b =>

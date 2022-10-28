@@ -42,6 +42,19 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public IEnumerable<CollaborationEntity> GetAllCollab(long userID)
+        {
+            try
+            {
+                return collabRL.GetAllCollab(userID);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public string Delete(long CollaboratorID)
         {
             try

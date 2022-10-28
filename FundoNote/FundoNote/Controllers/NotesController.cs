@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
@@ -25,12 +26,14 @@ namespace FundoNote.Controllers
         private readonly IMemoryCache memoryCache;
         private readonly FundoContext fundoContext;
         private readonly IDistributedCache distributedCache;
-        public NotesController(INotesBL notesBL, IMemoryCache memoryCache, FundoContext fundoContext, IDistributedCache distributedCache)
+        private readonly ILogger<NotesController> _logger;
+        public NotesController(INotesBL notesBL, IMemoryCache memoryCache, FundoContext fundoContext, IDistributedCache distributedCache, ILogger<NotesController> logger)
         {
             this.notesBL = notesBL;
             this.memoryCache = memoryCache;
             this.fundoContext = fundoContext;
             this.distributedCache = distributedCache;
+            this._logger = logger;
         }
         [Authorize]
         [HttpPost]
@@ -52,7 +55,7 @@ namespace FundoNote.Controllers
             }
             catch (System.Exception e)
             {
-
+                _logger.LogError(e.ToString());
                 return this.BadRequest(new { success = false, Message = e.Message });
             }
         }
@@ -60,12 +63,12 @@ namespace FundoNote.Controllers
         [Authorize]
         [HttpGet]
         [Route("Retrieve")]
-        public ActionResult Retrieve(long NotesID)
-        {
+        public IActionResult Retrieve()
+        { 
             try
             {
-                long ID = Convert.ToInt32(User.Claims.All(x => x.Type == "UserID"));
-                var result = notesBL.Retrieve(NotesID);
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "UserID").Value);
+                var result = notesBL.Retrieve(userId);
                 if (result != null)
                 {
                     return this.Ok(new { success = true, message = "data Reterieve Successful", data = result });
@@ -75,9 +78,9 @@ namespace FundoNote.Controllers
                     return this.NotFound(new { success = false, message = "Unable to Retrieve data" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex.ToString());
                 throw;
             }
         }
@@ -101,9 +104,9 @@ namespace FundoNote.Controllers
                     return this.NotFound(new { success = false, message = "Unable to Update Data" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex.ToString());
                 throw;
             }
 
@@ -127,9 +130,9 @@ namespace FundoNote.Controllers
                     return this.NotFound(new { success = false, message = "Note Unable to Delete" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex.ToString());
                 throw;
             }
 
@@ -152,9 +155,9 @@ namespace FundoNote.Controllers
                     return this.NotFound(new { success = false, message = "Note Unable to Achive" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex.ToString());
                 throw;
             }
 
@@ -178,9 +181,9 @@ namespace FundoNote.Controllers
                     return this.NotFound(new { success = false, message = "Note Unable to Pin" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex.ToString());
                 throw;
             }
 
@@ -203,9 +206,9 @@ namespace FundoNote.Controllers
                     return this.NotFound(new { success = false, message = "Note Unable to Trash" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex.ToString());
                 throw;
             }
 
@@ -228,8 +231,9 @@ namespace FundoNote.Controllers
                     return BadRequest(new { success = false, message = "Unable to upload image." });
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
+                _logger.LogError(ex.ToString());
                 throw;
             }
         }
@@ -251,9 +255,9 @@ namespace FundoNote.Controllers
                     return this.NotFound(new { success = false, message = "Unable to Change color" });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex.ToString());
                 throw;
             }
 
@@ -283,5 +287,29 @@ namespace FundoNote.Controllers
             }
             return Ok(notesList);
         }
+
+        //[Authorize]
+        //[HttpGet]
+        //[Route("GetAllNotes")]
+        //public IActionResult ReadNotes()
+        //{
+        //    try
+        //    {
+        //        long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+        //        var result = notesBL.ReadNotes(userId);
+        //        if (result != null)
+        //        {
+        //            return Ok(new { success = true, message = "NOTES RECIEVED", data = result });
+        //        }
+        //        else
+        //        {
+        //            return BadRequest(new { success = false, message = "NOTES RECIEVED FAILED" });
+        //        }
+        //    }
+        //    catch (System.Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
     }
 }

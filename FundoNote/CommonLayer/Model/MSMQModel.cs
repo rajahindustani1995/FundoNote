@@ -1,4 +1,4 @@
-﻿using Experimental.System.Messaging;
+﻿ using Experimental.System.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -16,7 +16,7 @@ namespace CommonLayer.Model
             if(!MessageQueue.Exists(messageQ.Path))
             {
                 MessageQueue.Create(messageQ.Path);
-            }
+            }   
             messageQ.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
             messageQ.ReceiveCompleted += MessageQ_ReceiveCompleted;
             messageQ.Send(token);
@@ -29,22 +29,25 @@ namespace CommonLayer.Model
             var msg = messageQ.EndReceive(e.AsyncResult);
             string token = msg.Body.ToString();
             string Subject = "FundoNotes Reset Link";
-            string Body = token;
+            string Body = $"Fundoo Notes Reset Password: <a href=https://localhost:4200/User/ResetPassword/{token}> Click Here</a>";
 
-            MailMessage message = new MailMessage();
-            message.From = new MailAddress("rajhindustani959@gmail.com");
-            message.To.Add("rajhindustani959@gmail.com");
+            //
 
-            message.Subject = "subject";
-            message.IsBodyHtml = true;
-            string htmlBody;
 
-            htmlBody = "Write some HTML Code here";
+            //MailMessage message = new MailMessage();
+            //message.From = new MailAddress("rajhindustani959@gmail.com");
+            //message.To.Add("rajhindustani959@gmail.com");
 
-            //HTML tags to show some message in mail
-            message.Body = "<body><p>Dear User,<br><br>" +
-                "Please check the link below for reset password.<br>" +
-                "Please copy the code and paste it in your swagger authentication.</body>" + token;
+            //message.Subject = "subject";
+            //message.IsBodyHtml = true;
+            //string htmlBody;
+
+            //htmlBody = "Write some HTML Code here";
+
+            ////HTML tags to show some message in mail
+            //message.Body = "<body><p>Dear User,<br><br>" +
+            //    "Please check the link below for reset password.<br>" +
+            //    "Please copy the code and paste it in your swagger authentication.</body>" + token;
 
             var SMTP = new SmtpClient("smtp.gmail.com")
             {
@@ -52,7 +55,7 @@ namespace CommonLayer.Model
                 Credentials = new NetworkCredential("rajhindustani959@gmail.com","ejxbhgibrryybrma"),
                 EnableSsl = true,
             };
-            SMTP.Send(message);
+            SMTP.Send("rajhindustani959@gmail.com", "rajhindustani959@gmail.com", Subject,Body);
             messageQ.BeginReceive();
         }
     }
